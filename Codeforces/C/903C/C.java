@@ -11,7 +11,7 @@ public class C
     for(int i = 0 ; i < n ; i++) pq.add(sc.nextInt());
 
     int pre = pq.remove();
-    int vis = (int) 1e9;
+    int vis = 1;
     while(!pq.isEmpty())
     {
       int boxes = 1;
