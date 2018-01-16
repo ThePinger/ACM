@@ -1,53 +1,56 @@
 //10130
-//SuperSale
-//DP
-import java.io.*;
-import java.util.ArrayList;
-import java.awt.Point;
-import java.util.Arrays;
-public class Main
-{
-  static ArrayList <Point> pw;
-  static int[][] memo;
-  public static int maxValue(int i , int weightRem)
-  {
-    if(i == pw.size())
-      return 0;
-    if(weightRem == 0)
-      return 0;
-    if(memo[i][weightRem] != -1)
-      return memo[i][weightRem];
-    int take = 0;
-    int leave = 0;
-    if(weightRem - pw.get(i).y >= 0)
-      take = pw.get(i).x + maxValue(i+1, weightRem - pw.get(i).y);
-    leave = maxValue(i+1 , weightRem);
-    return memo[i][weightRem] = Math.max(take,leave);
-  }
 
-  public static void main(String[] args)throws IOException
-  {
-     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-     int t = Integer.parseInt(br.readLine());
-     for(int i = 0 ; i < t ; i++)
-     {
-       int objects = Integer.parseInt(br.readLine());
-       pw = new ArrayList<Point>();
-       for(int j = 0 ; j < objects ; j++)
-       {
-         String[] s = br.readLine().split(" ");
-         int a = Integer.parseInt(s[0]);
-         int b = Integer.parseInt(s[1]);
-         pw.add(new Point(a,b));
-       }
-       memo = new int[objects][31];
-       for(int[] xx : memo)
-          Arrays.fill(xx,-1);
-       int people = Integer.parseInt(br.readLine());
-       int sum = 0 ;
-       for(int c = 0 ; c < people ; c++)
-         sum += maxValue(0,Integer.parseInt(br.readLine()));
-       System.out.println(sum);
-     }
-  }
+import java.awt.Point;
+import java.util.*;
+
+public class Main 
+{
+    static int[][] memo;
+    static Point[] objects;
+
+    public static int dp(int idx, int remW)
+    {
+        if(remW < 0)
+            return (int) -1e9;
+
+        if(idx == objects.length)
+            return 0;
+        
+        if(memo[idx][remW] != -1)
+            return memo[idx][remW];
+        
+        int take = objects[idx].x + dp(idx + 1, remW - objects[idx].y);
+        int leave = dp(idx + 1, remW);
+        
+        return memo[idx][remW] = Math.max(take, leave);
+
+    }
+
+    public static void main(String[] args) 
+    {
+        Scanner sc = new Scanner(System.in);
+        StringBuilder sb = new StringBuilder();
+        int t = sc.nextInt();
+        
+        while(t-->0)
+        {
+            int n = sc.nextInt();
+            objects = new Point[n];
+            for(int i = 0; i < n; i++)
+                objects[i] = new Point(sc.nextInt(), sc.nextInt());
+            
+            memo = new int[n][31];
+            for(int[] x : memo)
+                Arrays.fill(x, -1);
+
+            int sum = 0;
+            int people = sc.nextInt();
+            for(int i = 0; i < people; i++)
+                sum += dp(0, sc.nextInt());
+
+            if(t > 0) sb.append(sum + "\n");
+            else sb.append(sum);
+        }
+        System.out.println(sb);
+    }
 }
