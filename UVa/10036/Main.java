@@ -22,8 +22,8 @@ public class Main
         if(memo[idx][remSum + k] != -1)
             return memo[idx][remSum + k];
 
-        long plus = dp(idx + 1, (remSum + (values[idx] % k)) % k);
-        long minus = dp(idx + 1, (remSum - (values[idx] % k)) % k);
+        long plus = dp(idx + 1, (remSum + values[idx]) % k);
+        long minus = dp(idx + 1, (remSum - values[idx]) % k);
 
         if(plus == 1 || minus == 1)
             return memo[idx][remSum + k] = 1;
