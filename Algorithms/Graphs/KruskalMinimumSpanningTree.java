@@ -60,7 +60,7 @@ public class KruskalMinimumSpanningTree
 
         public int findSet(int i)
         {
-            return i == parent[i] ? i : this.findSet(parent[i]);
+            return i == parent[i] ? i : (parent[i] = this.findSet(parent[i]));
         }
 
         public boolean isSameSet(int i, int j)
