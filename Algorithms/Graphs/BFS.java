@@ -6,7 +6,7 @@ public class BFS
     static boolean[] visited;
     static ArrayList<Integer>[] adjList;
 
-    public static void unweightedSSSP(int start)
+    public static void bfs(int start)
     {
         Queue<Integer> queue = new LinkedList<>();
         visited[start] = true;
