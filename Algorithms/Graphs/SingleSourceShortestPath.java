@@ -6,7 +6,7 @@ public class SingleSourceShortestPath
     static int[] distance, parent;
     static boolean[] visited;
     static ArrayList<Integer>[] adjList;
-    static ArrayList<Edge>[] adjListDijkstra;
+    static ArrayList<Edge>[] adjListEdge;
 
     // Unweighted Graphs
     public static void unweightedSSSP(int start)
@@ -41,7 +41,7 @@ public class SingleSourceShortestPath
         {
             Edge cur = pq.poll();
             if(cur.cost > distance[cur.node]) continue;
-            for(Edge nxt : adjListDijkstra[cur.node])
+            for(Edge nxt : adjListEdge[cur.node])
             {
                 if(nxt.cost + cur.cost < distance[nxt.node])
                 {
@@ -50,6 +50,30 @@ public class SingleSourceShortestPath
                 }
             }
         }
+    }
+
+    //BellmanFord
+    //Graph with negative cycles
+    public static boolean bellmanFord(int s)
+    {
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[s] = 0;
+
+        for(int i = 0; i < n - 1; i++)
+            for(int j = 0; j < n; j++)
+                if(dist[j] < Integer.MAX_VALUE)
+                    for(Edge nxt : adjListEdge[j])
+                        dist[nxt.node] = Math.min(dist[nxt.node], dist[j] + nxt.cost);
+
+        //flag : Has Negative Cycle
+        boolean flag = false;
+        for(int i = 0; i < n; i++)
+            for(Edge nxt : adjListEdge[i])
+                if(dist[i] + nxt.cost < dist[nxt.node])
+                    flag = true;
+
+        return flag;
     }
 
     static class Edge implements Comparable<Edge>
