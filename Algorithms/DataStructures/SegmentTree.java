@@ -7,7 +7,9 @@ public class SegmentTree
 
     public SegmentTree(int[] arr)
     {
-        int n = arr.length << 1;
+        int n = 1;
+        while(n < arr.length) n <<= 1;
+        n <<= 1;
         this.arr = arr;
         this.lazy = new int[n];
         this.segTree = new int[n];
@@ -34,7 +36,7 @@ public class SegmentTree
         this.lazy[node << 1] += this.lazy[node];
         this.lazy[node << 1 | 1] += this.lazy[node];
         this.segTree[node << 1] = (mid - start + 1) * this.lazy[node];
-        this.segTree[node << 1] = (end - mid) * this.lazy[node];
+        this.segTree[node << 1 | 1] = (end - mid) * this.lazy[node];
         this.lazy[node] = 0;
     }
 
